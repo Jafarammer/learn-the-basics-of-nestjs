@@ -1,13 +1,11 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule, ObserveInstrument } from './app.module';
+import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
 import mustacheExpress from 'mustache-express';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    instrument: ObserveInstrument,
-  });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(cookieParser('Rahasia'));
   app.set('views', __dirname + '/../views');
   app.set('view engine', 'html');

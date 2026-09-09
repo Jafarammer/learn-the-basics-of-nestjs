@@ -12,7 +12,8 @@ describe('UserController', () => {
     controller = module.get<UserController>(UserController);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('should can say hello', async () => {
+    const response = await controller.sayHello('Wan', 'Jafar');
+    expect(response).toBe('Hello Wan Jafar');
   });
 });
