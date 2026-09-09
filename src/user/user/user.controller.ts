@@ -11,14 +11,26 @@ import {
   Redirect,
 } from '@nestjs/common';
 import type { HttpRedirectResponse } from '@nestjs/common';
+import type { Response, Request } from 'express';
 
 @Controller('/api/users')
 export class UserController {
+  @Get('/set-cookie')
+  setCookie(@Query('name') name: string, @Res() response: Response) {
+    response.cookie('name', name);
+    response.status(200).send('Succes set cookie');
+  }
+
+  @Get('/get-cookie')
+  getCookie(@Req() request: Request): string {
+    return request.cookies['name'];
+  }
+
   @Get('/hello')
-  sayHello(
+  async sayHello(
     @Query('first_name') firstName: string,
     @Query('last_name') lastName: string,
-  ): string {
+  ): Promise<string> {
     return `Hello ${firstName} ${lastName}`;
   }
 
