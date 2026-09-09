@@ -1,4 +1,16 @@
-import { Controller, Post, Get, Req, Query, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Req,
+  Query,
+  Param,
+  Res,
+  Header,
+  HttpCode,
+  Redirect,
+} from '@nestjs/common';
+import type { HttpRedirectResponse } from '@nestjs/common';
 
 @Controller('/api/users')
 export class UserController {
@@ -10,9 +22,22 @@ export class UserController {
     return `Hello ${firstName} ${lastName}`;
   }
 
-  @Get('/:id')
-  getByid(@Param('id') id: string): string {
-    return `GET ${id}`;
+  @Get('/sample-response')
+  @Header('Content-Type', 'application/json')
+  @HttpCode(200)
+  sampleResponse(): Record<string, string> {
+    return {
+      message: 'Hello Jafar',
+    };
+  }
+
+  @Get('/redirect')
+  @Redirect()
+  redirect(): HttpRedirectResponse {
+    return {
+      url: '/api/users/sample-response',
+      statusCode: 301,
+    };
   }
 
   @Post()
@@ -23,6 +48,11 @@ export class UserController {
   get(): string {
     return 'Hello Nestjs';
   }
+
+  // @Get('/:id')
+  // getByid(@Param('id') id: string): string {
+  //   return `GET ${id}`;
+  // }
 }
 
 /**
@@ -35,4 +65,12 @@ export class UserController {
  * 6. @Ip() for req.ip
  * 7. @HostParam() for req.hosts
  *
+ */
+
+/**
+ * Http response list
+ * 1. @HttpCode(code) to change response status code
+ * 2. @Header(key,value) to change response header
+ * 3. @Redirect(locatioin,code) to change redirect with return type using HttpRedirectResponse
+ * 4. @Next() for next express function
  */
