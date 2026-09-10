@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import request from 'supertest';
+import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
 
@@ -21,6 +21,18 @@ describe('AppController (e2e)', () => {
       .get('/')
       .expect(200)
       .expect('Hello World!');
+  });
+
+  it('should can say hello', async () => {
+    const result = await request(app.getHttpServer())
+      .get('/api/users/hello')
+      .query({
+        first_name: 'Wan',
+        last_name: 'Jafar',
+      });
+
+    expect(result.status).toBe(200);
+    expect(result.text).toBe('Hello Wan Jafar');
   });
 
   afterEach(async () => {
