@@ -40,5 +40,6 @@ import { createConnection } from './connection/connection';
     },
     MemberService,
   ],
+  exports: [UserService],
 })
 export class UserModule {}
