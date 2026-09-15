@@ -4,11 +4,15 @@ import type { NestExpressApplication } from '@nestjs/platform-express';
 import * as cookieParser from 'cookie-parser';
 import * as mustacheExpress from 'mustache-express';
 import { ConfigService } from '@nestjs/config';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.use(cookieParser('Rahasia'));
+
+  const loggerService = app.get(WINSTON_MODULE_NEST_PROVIDER);
+  app.useLogger(loggerService);
 
   app.set('views', __dirname + '/../views');
   app.set('view engine', 'html');

@@ -1,11 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma/prisma.service';
 import { User } from '../../generated/prisma/client';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { Logger } from 'winston';
 
 @Injectable()
 export class UserRepository {
-  constructor(private prismaService: PrismaService) {
-    console.info('Create user repository');
+  constructor(
+    private prismaService: PrismaService,
+    @Inject(WINSTON_MODULE_PROVIDER) private logger: Logger,
+  ) {
+    this.logger.info('Create new users');
   }
 
   async save(firstName: string, lastName?: string): Promise<User> {
