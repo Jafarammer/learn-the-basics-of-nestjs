@@ -50,11 +50,8 @@ export class UserController {
   }
 
   @Get('/hello')
-  async sayHello(
-    @Query('first_name') firstName: string,
-    @Query('last_name') lastName: string,
-  ): Promise<string> {
-    return this.service.sayHello(firstName, lastName);
+  async sayHello(@Query('name') name: string): Promise<string> {
+    return this.service.sayHello(name);
   }
 
   @Get('/view/test')

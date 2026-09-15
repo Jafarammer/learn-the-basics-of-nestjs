@@ -1,8 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import { ValidationService } from '../../validation/validation/validation.service';
+import { z } from 'zod';
 
 @Injectable()
 export class UserService {
-  sayHello(first_name: string, last_name: string): string {
-    return `Hello ${first_name} ${last_name}`;
+  constructor(private validation: ValidationService) {}
+  sayHello(name: string): string {
+    const schema = z.string().min(3).max(100);
+    const result = this.validation.validate(schema, name);
+    return `Hello ${result}`;
   }
 }
