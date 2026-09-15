@@ -15,7 +15,7 @@ import { createConnection } from './connection/connection';
 import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
-  imports: [PrismaModule],
+  // imports: [PrismaModule],
   controllers: [UserController],
   providers: [
     UserService,
