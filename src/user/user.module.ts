@@ -8,15 +8,14 @@ import {
   MongoDBConnection,
 } from './connection/connection';
 import { MailService, mailService } from './mail/mail.service';
-import {
-  UserRepository,
-  createUserRepository,
-} from './user-repository/user-repository';
+import { UserRepository } from './user-repository/user-repository';
 import { MemberService } from './member/member.service';
 import * as process from 'process';
 import { createConnection } from './connection/connection';
+import { PrismaModule } from '../prisma/prisma.module';
 
 @Module({
+  imports: [PrismaModule],
   controllers: [UserController],
   providers: [
     UserService,
@@ -33,11 +32,7 @@ import { createConnection } from './connection/connection';
       provide: 'EmailService',
       useExisting: MailService,
     },
-    {
-      provide: UserRepository,
-      useFactory: createUserRepository,
-      inject: [Connection],
-    },
+    UserRepository,
     MemberService,
   ],
   exports: [UserService],
